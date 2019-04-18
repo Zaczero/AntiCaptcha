@@ -14,8 +14,7 @@ namespace _AntiCaptcha.Test
 
         static async Task Foo()
         {
-            //var antiCaptcha = new AntiCaptcha(" ## YOUR API KEY ## ");
-            var antiCaptcha = new AntiCaptcha("58822af13ee81fc9ce3a4489bd6864c9");
+            var antiCaptcha = new AntiCaptcha(" ## YOUR API KEY ## ");
 
             // Get current balance
             var balance = await antiCaptcha.GetBalance();
