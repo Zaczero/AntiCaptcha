@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.1;netstandard2.0</TargetFrameworks>
+    <RootNamespace>_AntiCaptcha</RootNamespace>
+    <Authors>Zaczero (Kamil Monicz)</Authors>
+    <Description>Simple API wrapper for https://anti-captcha.com/</Description>
+    <Copyright>Copyright (c) Zaczero (Kamil Monicz) 2019</Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Zaczero/AntiCaptcha</PackageProjectUrl>
+    <PackageIconUrl>https://i.imgur.com/U0qKP3j.png</PackageIconUrl>
+    <Version>1.0.0</Version>
+    <PackageTags>anticaptcha, captcha, solver, recaptcha, google, text, image, wrapper, api</PackageTags>
+    <PackageId>AntiCaptchaAPI</PackageId>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+</Project>
