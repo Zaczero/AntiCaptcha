@@ -7,13 +7,13 @@
 Simple HTTP API wrapper for https://anti-captcha.com/  
 An online captcha solving and image recognition service.
 
-## Download
+## 🔗 Download
 * Latest release: https://github.com/Zaczero/AntiCaptcha/releases/latest
 
-## Thank You!
-If you find this project useful and you are new to anti captcha please consider registering from my [referrral link](http://getcaptchasolution.com/i4lbjatsex) 😊
+## ☕ Support me
+If you find this project useful and you are new to anti captcha please consider registering from my [referrral link](http://getcaptchasolution.com/i4lbjatsex).
 
-## Sample code
+## 🏁 Sample code
 
 ```cs
 var antiCaptcha = new AntiCaptcha(" ## YOUR API KEY ## ");
@@ -40,7 +40,7 @@ var gee = await antiCaptcha.SolveGeeTest("GEE_TEST_KEY", "https://example.com", 
 Debugger.Break();
 ```
 
-### And here is the result structure: *(same for all methods)*
+### And here is the result structure *(same for all methods)*:
 
 ```cs
 public struct AntiCaptchaResult
@@ -56,7 +56,7 @@ public struct AntiCaptchaResult
 }
 ```
 
-## License
+## 📎 License
 
 MIT License
 
