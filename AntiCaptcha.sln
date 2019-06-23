@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiCaptcha", "AntiCaptcha\AntiCaptcha.csproj", "{D5E45F70-72B9-4E27-B5C7-0F9C25AFE9BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiCaptcha.Test", "AntiCaptcha.Test\AntiCaptcha.Test.csproj", "{9E797E94-1D47-4BD5-AB8F-5B74CB3764A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntiCaptcha.Sandbox", "AntiCaptcha.Sandbox\AntiCaptcha.Sandbox.csproj", "{9E797E94-1D47-4BD5-AB8F-5B74CB3764A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
