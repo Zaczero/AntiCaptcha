@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _AntiCaptcha
 {
-    public class AntiCaptcha
+	public class AntiCaptcha
     {
 #if NETSTANDARD2_0
         [Serializable]
@@ -32,7 +33,7 @@ namespace _AntiCaptcha
             _apiKey = apiKey;
         }
 
-        public async Task<AntiCaptchaResult> GetBalance()
+        public async Task<AntiCaptchaResult> GetBalance(CancellationToken cancellationToken = default)
         {
             var content = new Dictionary<string, object>
             {
@@ -40,8 +41,8 @@ namespace _AntiCaptcha
             };
 
             var contentJson = JsonConvert.SerializeObject(content);
-            var inResponse = await _httpClient.PostAsync(BaseUrl + "getBalance", new StringContent(contentJson));
-            var inJson = await inResponse.Content.ReadAsStringAsync();
+            var inResponse = await _httpClient.PostAsync(BaseUrl + "getBalance", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
+            var inJson = await inResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var @in = JsonConvert.DeserializeObject<AntiCaptchaResponse>(inJson);
             if (@in.ErrorId != 0)
@@ -52,13 +53,13 @@ namespace _AntiCaptcha
             return new AntiCaptchaResult(true, @in.Balance.ToString());
         }
         
-        private async Task<InternalAntiCaptchaResult> Solve(int delaySeconds, Dictionary<string, object> content)
+        private async Task<InternalAntiCaptchaResult> Solve(int delaySeconds, IDictionary<string, object> content, CancellationToken cancellationToken = default)
         {
             content["clientKey"] = _apiKey;
             
             var contentJson = JsonConvert.SerializeObject(content);
-            var inResponse = await _httpClient.PostAsync(BaseUrl + "createTask", new StringContent(contentJson));
-            var inJson = await inResponse.Content.ReadAsStringAsync();
+            var inResponse = await _httpClient.PostAsync(BaseUrl + "createTask", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
+            var inJson = await inResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var @in = JsonConvert.DeserializeObject<AntiCaptchaResponse>(inJson);
             if (@in.ErrorId != 0)
@@ -66,11 +67,11 @@ namespace _AntiCaptcha
                 return new InternalAntiCaptchaResult(false, @in.ErrorCode, null);
             }
             
-            await Task.Delay(delaySeconds * 1000);
-            return await GetResponse(@in.TaskId);
+            await Task.Delay(delaySeconds * 1000, cancellationToken).ConfigureAwait(false);
+            return await GetResponse(@in.TaskId, cancellationToken).ConfigureAwait(false);
         }
 
-        private async Task<InternalAntiCaptchaResult> GetResponse(int taskId)
+        private async Task<InternalAntiCaptchaResult> GetResponse(int taskId, CancellationToken cancellationToken = default)
         {
             var content = new Dictionary<string, object>
             {
@@ -82,8 +83,8 @@ namespace _AntiCaptcha
 
             while (true)
             {
-                var response = await _httpClient.PostAsync(BaseUrl + "getTaskResult", new StringContent(contentJson));
-                var responseJson = await response.Content.ReadAsStringAsync();
+                var response = await _httpClient.PostAsync(BaseUrl + "getTaskResult", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
+                var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var res = JsonConvert.DeserializeObject<AntiCaptchaResponse>(responseJson);
                 if (res.ErrorId != 0)
@@ -93,7 +94,7 @@ namespace _AntiCaptcha
 
                 if (res.Status == "processing")
                 {
-                    await Task.Delay(5 * 1000);
+                    await Task.Delay(5 * 1000, cancellationToken).ConfigureAwait(false);
                     continue;
                 }
 
@@ -110,7 +111,8 @@ namespace _AntiCaptcha
             bool math = false, 
             int minLength = 0, 
             int maxLength = 0, 
-            string comment = null)
+            string comment = null,
+            CancellationToken cancellationToken = default)
         {
             var result = await Solve(5, new Dictionary<string, object>
                 {
@@ -127,15 +129,15 @@ namespace _AntiCaptcha
                             {"comment", comment},
                         }
                     }
-                });
+                }, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
-                return new AntiCaptchaResult(false, result.Response);
+				return new AntiCaptchaResult(false, result.Response);
 
             return new AntiCaptchaResult(true, result.Dictionary["text"].ToString());
         }
 
-        public async Task<AntiCaptchaResult> SolveReCaptchaV2(string googleSiteKey, string pageUrl, bool isInvisible = false)
+        public async Task<AntiCaptchaResult> SolveReCaptchaV2(string googleSiteKey, string pageUrl, bool isInvisible = false, CancellationToken cancellationToken = default)
         {
             var result = await Solve(10, new Dictionary<string, object>
             {
@@ -147,15 +149,15 @@ namespace _AntiCaptcha
                         {"isInvisible", isInvisible},
                     }
                 }
-            });
+            }, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
-                return new AntiCaptchaResult(false, result.Response);
+	            return new AntiCaptchaResult(false, result.Response);
 
             return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
         }
 
-        public async Task<AntiCaptchaResult> SolveFunCaptcha(string funCaptchaPublicKey, string pageUrl)
+        public async Task<AntiCaptchaResult> SolveFunCaptcha(string funCaptchaPublicKey, string pageUrl, CancellationToken cancellationToken = default)
         {
             var result = await Solve(10, new Dictionary<string, object>
             {
@@ -166,7 +168,7 @@ namespace _AntiCaptcha
                         {"websitePublicKey", funCaptchaPublicKey},
                     }
                 }
-            });
+            }, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
                 return new AntiCaptchaResult(false, result.Response);
@@ -174,7 +176,7 @@ namespace _AntiCaptcha
             return new AntiCaptchaResult(true, result.Dictionary["token"].ToString());
         }
 
-        public async Task<AntiCaptchaResult> SolveSquareNet(string imageBase64, string objectName, int rowsCount, int columnsCount)
+        public async Task<AntiCaptchaResult> SolveSquareNet(string imageBase64, string objectName, int rowsCount, int columnsCount, CancellationToken cancellationToken = default)
         {
             var result = await Solve(5, new Dictionary<string, object>
             {
@@ -187,7 +189,7 @@ namespace _AntiCaptcha
                         {"columnsCount", columnsCount},
                     }
                 }
-            });
+            }, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
                 return new AntiCaptchaResult(false, result.Response);
@@ -195,7 +197,7 @@ namespace _AntiCaptcha
             return new AntiCaptchaResult(true, result.Dictionary["cellNumbers"].ToString());
         }
 
-        public async Task<AntiCaptchaResult> SolveGeeTest(string geeTestKey, string pageUrl, string challenge)
+        public async Task<AntiCaptchaResult> SolveGeeTest(string geeTestKey, string pageUrl, string challenge, CancellationToken cancellationToken = default)
         {
             var result = await Solve(10, new Dictionary<string, object>
             {
@@ -207,7 +209,7 @@ namespace _AntiCaptcha
                         {"challenge", challenge},
                     }
                 }
-            });
+            }, cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
                 return new AntiCaptchaResult(false, result.Response);
