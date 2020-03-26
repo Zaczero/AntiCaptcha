@@ -1,81 +1,74 @@
-# ![2Captcha logo](https://i.imgur.com/U0qKP3j.png)
+# ![Zaczero/AntiCaptcha logo](https://github.com/Zaczero/AntiCaptcha/blob/master/resources/AntiCaptcha.png)
 
-![](https://img.shields.io/github/release/Zaczero/AntiCaptcha.svg)
-![](https://img.shields.io/nuget/v/AntiCaptchaAPI.svg)
-![](https://img.shields.io/github/license/Zaczero/AntiCaptcha.svg)
+![github version](https://img.shields.io/github/release/Zaczero/AntiCaptcha.svg)
+![nuget version](https://img.shields.io/nuget/v/AntiCaptchaAPI.svg)
+![license type](https://img.shields.io/github/license/Zaczero/AntiCaptcha.svg)
 
-Simple HTTP API wrapper for https://anti-captcha.com/  
+Simple HTTP API wrapper for [anti-captcha.com](https://anti-captcha.com/)  
 An online captcha solving and image recognition service.
 
-## 🔗 Download
-* Latest release: https://github.com/Zaczero/AntiCaptcha/releases/latest
+## 🌤️ Installation
 
-## ☕ Support me
-If you find this project useful and you are new to anti captcha please consider registering from my [referrral link](http://getcaptchasolution.com/i4lbjatsex).
+### Install with NuGet (recommended)
 
-## 🏁 Sample code
+`Install-Package AntiCaptchaAPI`
+
+### Install manually
+
+[Browse latest GitHub release](https://github.com/Zaczero/AntiCaptcha/releases/latest)
+
+## 🏁 Getting started
+
+### Sample code
 
 ```cs
-var antiCaptcha = new AntiCaptcha(" ## YOUR API KEY ## ");
+var captcha = new AntiCaptcha(" ## YOUR API KEY ## ");
+// .. additionally you can pass your own httpClient class
+var captchaWithHttpClient = new AntiCaptcha(" ## YOUR API KEY ## ", new HttpClient());
 
 // Get current balance
-var balance = await antiCaptcha.GetBalance();
+var balance = await captcha.GetBalance();
 
 // Solve image captcha
-var image = await antiCaptcha.SolveImage("iVBORw0KGgo...");
+var image = await captcha.SolveImage("iVBORw0KGgo...");
 
 // Solve ReCaptchaV2
-var recaptcha = await antiCaptcha.SolveReCaptchaV2("GOOGLE_SITE_KEY", "https://example.com");
-var recaptchaInvisible = await antiCaptcha.SolveReCaptchaV2("GOOGLE_SITE_KEY", "https://example.com", true);
+var recaptcha = await captcha.SolveReCaptchaV2("GOOGLE_SITE_KEY", "https://example.com");
+var recaptchaInvisible = await captcha.SolveReCaptchaV2("GOOGLE_SITE_KEY", "https://example.com", true);
 
 // Solve FunCaptcha
-var fun = await antiCaptcha.SolveFunCaptcha("FUN_CAPTCHA_PUBLIC_KEY", "https://example.com");
+var fun = await captcha.SolveFunCaptcha("FUN_CAPTCHA_PUBLIC_KEY", "https://example.com");
 
 // Solve SquareNet
-var square = await antiCaptcha.SolveSquareNet("iVBORw0KGgo...", "banana", 3, 3);
+var square = await captcha.SolveSquareNet("iVBORw0KGgo...", "banana", 3, 3);
 
 // Solve GeeTest
-var gee = await antiCaptcha.SolveGeeTest("GEE_TEST_KEY", "https://example.com", "CHALLENGE");
-
-Debugger.Break();
+var gee = await captcha.SolveGeeTest("GEE_TEST_KEY", "https://example.com", "CHALLENGE");
 ```
 
-### And here is the result structure *(same for all methods)*:
+### And here is the result structure *(the same for all methods)*
 
 ```cs
 public struct AntiCaptchaResult
 {
-	public bool Success;
-	public string Response;
+    public bool Success;
+    public string Response;
 
-	public AntiCaptchaResult(bool success, string response)
-	{
-		Success = success;
-		Response = response;
-	}
+    public AntiCaptchaResult(bool success, string response)
+    {
+        Success = success;
+        Response = response;
+    }
 }
 ```
 
-## 📎 License
+## Footer
 
-MIT License
+### 📧 Contact
 
-Copyright (c) 2019 Kamil Monicz
+* Email: [kamil@monicz.pl](mailto:kamil@monicz.pl)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+### 📃 License
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+* [Zaczero/AntiCaptcha](https://github.com/Zaczero/AntiCaptcha/blob/master/LICENSE)
+* [JamesNK/Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)

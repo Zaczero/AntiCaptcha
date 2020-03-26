@@ -14,13 +14,13 @@ namespace _AntiCaptcha
 		}
 	}
 
-	internal struct InternalAntiCaptchaResult
+	internal struct AntiCaptchaResultInternal
 	{
 		public bool Success;
 		public string Response;
 		public Dictionary<string, object> Dictionary;
 
-		public InternalAntiCaptchaResult(bool success, string response, Dictionary<string, object> dictionary)
+		public AntiCaptchaResultInternal(bool success, string response, Dictionary<string, object> dictionary)
 		{
 			Success = success;
 			Response = response;

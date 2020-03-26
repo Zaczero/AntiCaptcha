@@ -12,7 +12,7 @@ namespace _AntiCaptcha
 #if NETSTANDARD2_0
 		[Serializable]
 #endif
-		private struct AntiCaptchaResponse
+		private struct AntiCaptchaApiResponse
 		{
 			public int ErrorId;
 			public string ErrorCode;
@@ -27,9 +27,9 @@ namespace _AntiCaptcha
 		private readonly HttpClient _httpClient;
 		private readonly string _apiKey;
 
-		public AntiCaptcha(string apiKey)
+		public AntiCaptcha(string apiKey, HttpClient httpClient = null)
 		{
-			_httpClient = new HttpClient();
+			_httpClient = httpClient ?? new HttpClient();
 			_apiKey = apiKey;
 		}
 
@@ -44,7 +44,7 @@ namespace _AntiCaptcha
 			var inResponse = await _httpClient.PostAsync(BaseUrl + "getBalance", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
 			var inJson = await inResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-			var @in = JsonConvert.DeserializeObject<AntiCaptchaResponse>(inJson);
+			var @in = JsonConvert.DeserializeObject<AntiCaptchaApiResponse>(inJson);
 			if (@in.ErrorId != 0)
 			{
 				return new AntiCaptchaResult(false, @in.ErrorCode);
@@ -53,7 +53,7 @@ namespace _AntiCaptcha
 			return new AntiCaptchaResult(true, @in.Balance.ToString());
 		}
 		
-		private async Task<InternalAntiCaptchaResult> Solve(int delaySeconds, IDictionary<string, object> content, CancellationToken cancellationToken = default)
+		private async Task<AntiCaptchaResultInternal> Solve(int delaySeconds, IDictionary<string, object> content, CancellationToken cancellationToken = default)
 		{
 			content["clientKey"] = _apiKey;
 			
@@ -61,17 +61,17 @@ namespace _AntiCaptcha
 			var inResponse = await _httpClient.PostAsync(BaseUrl + "createTask", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
 			var inJson = await inResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-			var @in = JsonConvert.DeserializeObject<AntiCaptchaResponse>(inJson);
+			var @in = JsonConvert.DeserializeObject<AntiCaptchaApiResponse>(inJson);
 			if (@in.ErrorId != 0)
 			{
-				return new InternalAntiCaptchaResult(false, @in.ErrorCode, null);
+				return new AntiCaptchaResultInternal(false, @in.ErrorCode, null);
 			}
 			
 			await Task.Delay(delaySeconds * 1000, cancellationToken).ConfigureAwait(false);
 			return await GetResponse(@in.TaskId, cancellationToken).ConfigureAwait(false);
 		}
 
-		private async Task<InternalAntiCaptchaResult> GetResponse(int taskId, CancellationToken cancellationToken = default)
+		private async Task<AntiCaptchaResultInternal> GetResponse(int taskId, CancellationToken cancellationToken = default)
 		{
 			var content = new Dictionary<string, object>
 			{
@@ -86,10 +86,10 @@ namespace _AntiCaptcha
 				var response = await _httpClient.PostAsync(BaseUrl + "getTaskResult", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
 				var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-				var res = JsonConvert.DeserializeObject<AntiCaptchaResponse>(responseJson);
+				var res = JsonConvert.DeserializeObject<AntiCaptchaApiResponse>(responseJson);
 				if (res.ErrorId != 0)
 				{
-					return new InternalAntiCaptchaResult(false, res.ErrorCode, null);
+					return new AntiCaptchaResultInternal(false, res.ErrorCode, null);
 				}
 
 				if (res.Status == "processing")
@@ -98,7 +98,7 @@ namespace _AntiCaptcha
 					continue;
 				}
 
-				return new InternalAntiCaptchaResult(true, null, res.Solution);
+				return new AntiCaptchaResultInternal(true, null, res.Solution);
 			}
 		}
 
