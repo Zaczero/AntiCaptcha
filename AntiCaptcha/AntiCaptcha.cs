@@ -157,6 +157,46 @@ namespace _AntiCaptcha
 			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
 		}
 
+		public async Task<AntiCaptchaResult> SolveReCaptchaV3(string googleSiteKey, string pageUrl, double minScore, string pageAction, CancellationToken cancellationToken = default)
+		{
+			var result = await Solve(5, new Dictionary<string, object>
+			{
+				{"task", new Dictionary<string, object>
+					{
+						{"type", "RecaptchaV3TaskProxyless"},
+						{"websiteURL", pageUrl},
+						{"websiteKey", googleSiteKey},
+						{"minScore", minScore},
+						{"pageAction", pageAction},
+					}
+				}
+			}, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
+		}
+
+		public async Task<AntiCaptchaResult> SolveHCaptcha(string siteKey, string pageUrl, CancellationToken cancellationToken = default)
+		{
+			var result = await Solve(10, new Dictionary<string, object>
+			{
+				{"task", new Dictionary<string, object>
+					{
+						{"type", "HCaptchaTaskProxyless"},
+						{"websiteURL", pageUrl},
+						{"websiteKey", siteKey},
+					}
+				}
+			}, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
+		}
+
 		public async Task<AntiCaptchaResult> SolveFunCaptcha(string funCaptchaPublicKey, string pageUrl, CancellationToken cancellationToken = default)
 		{
 			var result = await Solve(10, new Dictionary<string, object>
