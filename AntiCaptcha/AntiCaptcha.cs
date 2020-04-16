@@ -56,6 +56,7 @@ namespace _AntiCaptcha
 		private async Task<AntiCaptchaResultInternal> Solve(int delaySeconds, IDictionary<string, object> content, CancellationToken cancellationToken = default)
 		{
 			content["clientKey"] = _apiKey;
+			content["softId"] = 935;
 			
 			var contentJson = JsonConvert.SerializeObject(content);
 			var inResponse = await _httpClient.PostAsync(BaseUrl + "createTask", new StringContent(contentJson), cancellationToken).ConfigureAwait(false);
