@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+#pragma warning disable 649
+
 namespace AntiCaptchaAPI
 {
 	public class AntiCaptcha
@@ -157,6 +159,40 @@ namespace AntiCaptchaAPI
 			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
 		}
 
+		public async Task<AntiCaptchaResult> SolveReCaptchaV2(string googleSiteKey, string pageUrl, AntiCaptchaProxy proxy, string userAgent, bool isInvisible = false, CancellationToken cancellationToken = default)
+		{
+			var dictionary = new Dictionary<string, object>
+			{
+				{
+					"task", new Dictionary<string, object>
+					{
+						{"type", "NoCaptchaTask"},
+						{"websiteURL", pageUrl},
+						{"websiteKey", googleSiteKey},
+						{"proxyType", proxy.Type.GetExtension()},
+						{"proxyAddress", proxy.Address},
+						{"proxyPort", proxy.Port},
+						{"userAgent", userAgent},
+						{"isInvisible", isInvisible},
+					}
+				}
+			};
+
+			if (proxy.IsAuth())
+			{
+				var taskDictionary = dictionary["task"] as Dictionary<string, object>;
+				taskDictionary.Add("proxyLogin", proxy.Login);
+				taskDictionary.Add("proxyPassword", proxy.Password);
+			}
+
+			var result = await Solve(10, dictionary, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
+		}
+
 		public async Task<AntiCaptchaResult> SolveReCaptchaV3(string googleSiteKey, string pageUrl, double minScore, string pageAction, CancellationToken cancellationToken = default)
 		{
 			var result = await Solve(5, new Dictionary<string, object>
@@ -197,6 +233,32 @@ namespace AntiCaptchaAPI
 			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
 		}
 
+		public async Task<AntiCaptchaResult> SolveHCaptcha(string siteKey, string pageUrl, AntiCaptchaProxy proxy, string userAgent, CancellationToken cancellationToken = default)
+		{
+			var dictionary = new Dictionary<string, object>
+			{
+				{
+					"task", new Dictionary<string, object>
+					{
+						{"type", "HCaptchaTask"},
+						{"websiteURL", pageUrl},
+						{"websiteKey", siteKey},
+						{"proxyType", proxy.Type.GetExtension()},
+						{"proxyAddress", proxy.Address},
+						{"proxyPort", proxy.Port},
+						{"userAgent", userAgent},
+					}
+				}
+			};
+
+			var result = await Solve(10, dictionary, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, result.Dictionary["gRecaptchaResponse"].ToString());
+		}
+
 		public async Task<AntiCaptchaResult> SolveFunCaptcha(string funCaptchaPublicKey, string pageUrl, CancellationToken cancellationToken = default)
 		{
 			var result = await Solve(10, new Dictionary<string, object>
@@ -209,6 +271,39 @@ namespace AntiCaptchaAPI
 					}
 				}
 			}, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, result.Dictionary["token"].ToString());
+		}
+
+		public async Task<AntiCaptchaResult> SolveFunCaptcha(string funCaptchaPublicKey, string pageUrl, AntiCaptchaProxy proxy, string userAgent, CancellationToken cancellationToken = default)
+		{
+			var dictionary = new Dictionary<string, object>
+			{
+				{
+					"task", new Dictionary<string, object>
+					{
+						{"type", "FunCaptchaTask"},
+						{"websiteURL", pageUrl},
+						{"websitePublicKey", funCaptchaPublicKey},
+						{"proxyType", proxy.Type.GetExtension()},
+						{"proxyAddress", proxy.Address},
+						{"proxyPort", proxy.Port},
+						{"userAgent", userAgent},
+					}
+				}
+			};
+
+			if (proxy.IsAuth())
+			{
+				var taskDictionary = dictionary["task"] as Dictionary<string, object>;
+				taskDictionary.Add("proxyLogin", proxy.Login);
+				taskDictionary.Add("proxyPassword", proxy.Password);
+			}
+
+			var result = await Solve(10, dictionary, cancellationToken).ConfigureAwait(false);
 
 			if (!result.Success)
 				return new AntiCaptchaResult(false, result.Response);
@@ -250,6 +345,40 @@ namespace AntiCaptchaAPI
 					}
 				}
 			}, cancellationToken).ConfigureAwait(false);
+
+			if (!result.Success)
+				return new AntiCaptchaResult(false, result.Response);
+
+			return new AntiCaptchaResult(true, $"{result.Dictionary["challenge"]};{result.Dictionary["validate"]};{result.Dictionary["seccode"]}");
+		}
+
+		public async Task<AntiCaptchaResult> SolveGeeTest(string geeTestKey, string pageUrl, string challenge, AntiCaptchaProxy proxy, string userAgent, CancellationToken cancellationToken = default)
+		{
+			var dictionary = new Dictionary<string, object>
+			{
+				{
+					"task", new Dictionary<string, object>
+					{
+						{"type", "GeeTestTask"},
+						{"websiteURL", pageUrl},
+						{"gt", geeTestKey},
+						{"challenge", challenge},
+						{"proxyType", proxy.Type.GetExtension()},
+						{"proxyAddress", proxy.Address},
+						{"proxyPort", proxy.Port},
+						{"userAgent", userAgent},
+					}
+				}
+			};
+
+			if (proxy.IsAuth())
+			{
+				var taskDictionary = dictionary["task"] as Dictionary<string, object>;
+				taskDictionary.Add("proxyLogin", proxy.Login);
+				taskDictionary.Add("proxyPassword", proxy.Password);
+			}
+
+			var result = await Solve(10, dictionary, cancellationToken).ConfigureAwait(false);
 
 			if (!result.Success)
 				return new AntiCaptchaResult(false, result.Response);
