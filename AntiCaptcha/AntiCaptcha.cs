@@ -252,6 +252,13 @@ namespace AntiCaptchaAPI
 				}
 			};
 
+			if (proxy.IsAuth())
+			{
+				var taskDictionary = dictionary["task"] as Dictionary<string, object>;
+				taskDictionary.Add("proxyLogin", proxy.Login);
+				taskDictionary.Add("proxyPassword", proxy.Password);
+			}
+
 			var result = await Solve(10, dictionary, cancellationToken).ConfigureAwait(false);
 
 			if (!result.Success)
