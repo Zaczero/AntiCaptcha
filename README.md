@@ -51,6 +51,7 @@ var image = await captcha.SolveImage("BASE64_IMAGE");
  */
 var reCaptcha = await captcha.SolveReCaptchaV2("SITE_KEY", "https://WEBSITE_URL");
 var reCaptchaInvisible = await captcha.SolveReCaptchaV2("SITE_KEY", "https://WEBSITE_URL", true);
+var reCaptchaWithProxy = await captcha.SolveReCaptchaV2("SITE_KEY", "https://WEBSITE_URL", new AntiCaptchaProxy(ProxyType.Http, "PROXY_ADDRESS", 8080), "USER_AGENT");
 
 /*
  * Type: ReCaptcha V3
@@ -70,6 +71,7 @@ var reCaptchaV3 = await captcha.SolveReCaptchaV3("SITE_KEY", "https://WEBSITE_UR
  * Documentation (anti-captcha): https://anti-captcha.com/apidoc/hcaptcha
  */
 var hCaptcha = await captcha.SolveHCaptcha("SITE_KEY", "https://WEBSITE_URL");
+var hCaptchaWithProxy = await captcha.SolveHCaptcha("SITE_KEY", "https://WEBSITE_URL", new AntiCaptchaProxy(ProxyType.Http, "PROXY_ADDRESS", 8080), "USER_AGENT");
 
 /*
  * Type: GeeTest
@@ -79,6 +81,7 @@ var hCaptcha = await captcha.SolveHCaptcha("SITE_KEY", "https://WEBSITE_URL");
  * Documentation (anti-captcha): https://anti-captcha.com/apidoc/geetest
  */
 var geeTest = await captcha.SolveGeeTest("SITE_KEY", "https://WEBSITE_URL", "CHALLENGE");
+var geeTestWithProxy = await captcha.SolveGeeTest("SITE_KEY", "https://WEBSITE_URL", "CHALLENGE", new AntiCaptchaProxy(ProxyType.Http, "PROXY_ADDRESS", 8080), "USER_AGENT");
 
 /*
  * Type: FunCaptcha
@@ -86,6 +89,7 @@ var geeTest = await captcha.SolveGeeTest("SITE_KEY", "https://WEBSITE_URL", "CHA
  * Documentation (anti-captcha): https://anti-captcha.com/apidoc/funcaptcha
  */
 var funCaptcha = await captcha.SolveFunCaptcha("SITE_KEY", "https://WEBSITE_URL");
+var funCaptchaWithProxy = await captcha.SolveFunCaptcha("SITE_KEY", "https://WEBSITE_URL", new AntiCaptchaProxy(ProxyType.Http, "PROXY_ADDRESS", 8080), "USER_AGENT");
 
 /*
  * Type: SquareNet
