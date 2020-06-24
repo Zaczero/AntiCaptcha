@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace _AntiCaptcha.Test
+namespace AntiCaptchaAPI.Test
 {
 	class Program
 	{
@@ -31,7 +31,7 @@ namespace _AntiCaptcha.Test
 			 * Documentation (anti-captcha): https://anti-captcha.com/apidoc/image
 			 */
 			var image = await captcha.SolveImage("BASE64_IMAGE");
-			
+
 			/*
 			 * Type: ReCaptcha V2
 			 * Optionally you can pass 3rd parameter `isInvisible` to indicate if the reCaptcha is setup as invisible
@@ -42,7 +42,7 @@ namespace _AntiCaptcha.Test
 			 */
 			var reCaptcha = await captcha.SolveReCaptchaV2("SITE_KEY", "https://WEBSITE_URL");
 			var reCaptchaInvisible = await captcha.SolveReCaptchaV2("SITE_KEY", "https://WEBSITE_URL", true);
-			
+
 			/*
 			 * Type: ReCaptcha V3
 			 * If you get ERROR_INCORRECT_SESSION_DATA error you may need to increase minScore value

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace _AntiCaptcha
+namespace AntiCaptchaAPI
 {
 	public struct AntiCaptchaResult
 	{
