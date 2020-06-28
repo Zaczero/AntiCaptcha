@@ -1,8 +1,8 @@
 # ![Zaczero/AntiCaptcha logo](https://github.com/Zaczero/AntiCaptcha/blob/master/resources/AntiCaptcha.png)
 
-![github version](https://img.shields.io/github/release/Zaczero/AntiCaptcha.svg)
-![nuget version](https://img.shields.io/nuget/v/AntiCaptchaAPI.svg)
-![license type](https://img.shields.io/github/license/Zaczero/AntiCaptcha.svg)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Zaczero/AntiCaptcha)](https://github.com/Zaczero/AntiCaptcha/releases/latest)
+[![Nuget](https://img.shields.io/nuget/v/AntiCaptchaAPI)](https://www.nuget.org/packages/AntiCaptchaAPI/)
+[![GitHub](https://img.shields.io/github/license/Zaczero/AntiCaptcha)](https://github.com/Zaczero/AntiCaptcha/blob/master/LICENSE)
 
 Simple HTTP API wrapper for [anti-captcha.com](https://anti-captcha.com/)  
 An online captcha solving and image recognition service.
