@@ -14,6 +14,10 @@ An online captcha solving and image recognition service.
 
 `Install-Package AntiCaptchaAPI`
 
+### Install with dotnet
+
+`dotnet add PROJECT package AntiCaptchaAPI`
+
 ### Install manually
 
 [Browse latest GitHub release](https://github.com/Zaczero/AntiCaptcha/releases/latest)
@@ -119,6 +123,7 @@ public struct AntiCaptchaResult
 ### 📧 Contact
 
 * Email: [kamil@monicz.pl](mailto:kamil@monicz.pl)
+* PGP: [0x9D7BC5B97BB0A707](https://gist.github.com/Zaczero/158da01bfd5b6d236f2b8ceb62dd9698)
 
 ### 📃 License
 
