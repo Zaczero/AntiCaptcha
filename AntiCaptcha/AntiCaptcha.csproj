@@ -5,7 +5,7 @@
     <RootNamespace>AntiCaptchaAPI</RootNamespace>
     <Authors>Zaczero (Kamil Monicz)</Authors>
     <Description>Simple API wrapper for https://anti-captcha.com/</Description>
-    <Copyright>Copyright © Kamil Monicz 2020</Copyright>
+    <Copyright>Copyright © Kamil Monicz 2022</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/Zaczero/AntiCaptcha</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -13,14 +13,15 @@
     <PackageTags>anticaptcha, captcha, solver, google, recaptcha, hcaptcha, geetest, text, image, wrapper, api</PackageTags>
     <PackageId>AntiCaptchaAPI</PackageId>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>1.4.1.0</AssemblyVersion>
-    <FileVersion>1.4.1.0</FileVersion>
+    <AssemblyVersion>1.4.2.0</AssemblyVersion>
+    <FileVersion>1.4.2.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/Zaczero/AntiCaptcha</RepositoryUrl>
     <PackageIcon>AntiCaptcha.png</PackageIcon>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageVersion>1.4.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
