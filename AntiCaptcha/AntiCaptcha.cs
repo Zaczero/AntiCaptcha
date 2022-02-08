@@ -18,7 +18,7 @@ namespace AntiCaptchaAPI
 		{
 			public int ErrorId;
 			public string ErrorCode;
-			public int TaskId;
+			public long TaskId;
 			public string Status;
 			public Dictionary<string, object> Solution;
 			public float Balance;
@@ -74,7 +74,7 @@ namespace AntiCaptchaAPI
 			return await GetResponse(@in.TaskId, cancellationToken).ConfigureAwait(false);
 		}
 
-		private async Task<AntiCaptchaResultInternal> GetResponse(int taskId, CancellationToken cancellationToken = default)
+		private async Task<AntiCaptchaResultInternal> GetResponse(long taskId, CancellationToken cancellationToken = default)
 		{
 			var content = new Dictionary<string, object>
 			{
