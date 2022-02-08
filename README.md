@@ -1,6 +1,5 @@
 # ![Zaczero/AntiCaptcha logo](https://github.com/Zaczero/AntiCaptcha/blob/master/resources/AntiCaptcha.png)
 
-[![Build Status](https://travis-ci.com/Zaczero/AntiCaptcha.svg?branch=master)](https://travis-ci.com/Zaczero/AntiCaptcha)
 [![GitHub Release](https://img.shields.io/github/v/release/Zaczero/AntiCaptcha)](https://github.com/Zaczero/AntiCaptcha/releases/latest)
 [![NuGet Release](https://img.shields.io/nuget/v/AntiCaptchaAPI)](https://www.nuget.org/packages/AntiCaptchaAPI/)
 [![License](https://img.shields.io/github/license/Zaczero/AntiCaptcha)](https://github.com/Zaczero/AntiCaptcha/blob/master/LICENSE)
