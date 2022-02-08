@@ -1,7 +1,7 @@
 language: csharp
 solution: AntiCaptcha.sln
 mono: none
-dotnet: 2.1.809
+dotnet: 2.1.818
 script:
  - dotnet build -c Debug
  - dotnet build -c Release
