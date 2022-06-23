@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/Zaczero/AntiCaptcha</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <Version>1.4.1</Version>
+    <PackageVersion>1.4.2</PackageVersion>
     <PackageTags>anticaptcha, captcha, solver, google, recaptcha, hcaptcha, geetest, text, image, wrapper, api</PackageTags>
     <PackageId>AntiCaptchaAPI</PackageId>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -21,7 +22,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageVersion>1.4.2</PackageVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
