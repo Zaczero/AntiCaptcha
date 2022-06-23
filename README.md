@@ -4,7 +4,7 @@
 [![NuGet Release](https://img.shields.io/nuget/v/AntiCaptchaAPI)](https://www.nuget.org/packages/AntiCaptchaAPI/)
 [![License](https://img.shields.io/github/license/Zaczero/AntiCaptcha)](https://github.com/Zaczero/AntiCaptcha/blob/master/LICENSE)
 
-Simple HTTP API wrapper for [anti-captcha.com](https://anti-captcha.com/)  
+Simple HTTP API wrapper for [anti-captcha.com](https://anti-captcha.com/).
 An online captcha solving and image recognition service.
 
 ## 🌤️ Installation
@@ -12,10 +12,6 @@ An online captcha solving and image recognition service.
 ### Install with NuGet (recommended)
 
 `Install-Package AntiCaptchaAPI`
-
-### Install with dotnet
-
-`dotnet add PROJECT package AntiCaptchaAPI`
 
 ### Install manually
 
